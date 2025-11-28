@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin - Ballroom Dashboard</title>
+    <style>
+      /* ===== simple admin css ===== */
+:root {
+    --bg: #0e1624;
+    --card: #111a2c;
+    --muted: #b9c2d3;
+    --accent: #e0c46c; /* Gold elegan, lebih terang */
+}
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, #0a1220 0%, #0c1524 100%);
+    color: #eef2fa;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 32px auto;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        border-radius: 12px;
+        padding: 18px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      h1 {
+        font-size: 1.15rem;
+        margin: 0;
+      }
+      .login-panel,
+      .dashboard {
+        padding: 18px;
+        border-radius: 8px;
+            background: #111a2c;
+
+      }
+      .field {
+        margin-bottom: 10px;
+
+      }
+      label {
+        display: block;
+        font-size: 0.85rem;
+
+        margin-bottom: 6px;
+            color: #a9b4c7;
+
+      }
+      input[type="text"],
+      input[type="date"],
+      input[type="time"],
+      input[type="password"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #ffffff;
+
+      }
+      textarea {
+        min-height: 76px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+    background: #e0c46c;
+    color: #0e1624;
+        font-weight: 600;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+    border-color: rgba(255,255,255,0.1);
+    color: #a9b4c7;      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+      }
+      th,
+      td {
+        padding: 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        font-size: 0.95rem;
+        color: #dce3ed;
+        
+
+      }
+      th {
+    color: #94a3b8;
+
+        text-align: left;
+      }
+      td .small {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .row-actions button {
+        margin-right: 6px;
+      }
+      .top-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal {
+        padding: 16px;
+        border-radius: 10px;
+        max-width: 960px;
+        width: 90%;
+    background: #0f1a2b;
+    color: #ffdfeb;
+      }
+
+      .modal .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 42px;
+      }
+      .img-preview {
+        width: 100%;
+        height: 160px;
+    background: #0a1522;
+    color: #8896a8;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        object-fit: cover;
+        margin-bottom: 12px;
+      }
+      .danger {
+        background: #7f1d1d;
+      }
+      footer {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+
+
+/* Tambahkan di CSS Anda */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.toggle-switch input[type="checkbox"] {
+    display: none;
+}
+
+.slider {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 24px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+input[type="checkbox"]:checked + .slider {
+    background-color: #cbbd5f;
+}
+
+input[type="checkbox"]:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.status-text {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: #1e3a29;
+    color: #c9ebd4;
+}
+
+
+
+
+
+
+
+
+
+
+/* User Role Badges */
+.superadmin-badge {
+    background-color: #dc2626;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.manager-badge {
+    background-color: #cbbd5f;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.staff-badge {
+    background-color: #10b981;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Small button */
+.btn.small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+
+
+
+
+
+.form-control{
+  color: blue;
+  background: wheat;
+}
+
+
+
+
+
+      @media (max-width: 760px) {
+        .modal .two {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Admin Dashboard</h1>
+        <div id="adminStatus" class="small">Not signed in</div>
+      </header>
+      
+
+
+      <!-- ===== LOGIN PANEL ===== -->
+      <div id="loginPanel" class="login-panel">
+        <h2 style="margin-top: 0">Admin Login</h2>
+        <div class="field">
+          <label>Username</label>
+          <input id="loginUser" type="text" placeholder="admin" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input id="loginPass" type="password" placeholder="admin123" />
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center">
+          <button id="btnLogin" class="btn">Login</button>
+          <!--<button id="btnSeed" class="btn ghost">Reset to default data</button>-->
+        </div>
+        <!--<p style="margin-top: 10px; color: var(--muted); font-size: 0.9rem">
+          Default credentials: <strong>admin / admin123</strong> (stored in
+          localStorage). You can change after login.
+        </p>-->
+      </div>
+
+      <!-- ===== DASHBOARD (hidden until login) ===== -->
+      
+      <div
+        id="dashboard"
+        class="dashboard"
+        style="display: none; margin-top: 12px"
+      >
+
+
+    <div class="form-group">
+        <label for="adminTitle">NAMA HOTEL:</label>
+        <input type="text" id="adminTitle" placeholder="Masukkan title...">
+    </div>
+    <div class="form-group">
+        <label for="adminSubtitle">PENJELASAN SINGKAT</label>
+        <input type="text" id="adminSubtitle" placeholder="Masukkan subtitle...">
+    </div>
+<button onclick="updateHeader()" style="
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: rgb(255, 255, 255);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    margin-bottom: 20px;
+">UPDATE NAMA HOTEL</button>
+
+
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+          "
+        >
+
+        
+          <div class="top-actions">
+
+            
+            <button id="btnAdd" class="btn">Tambah Ballroom</button>
+            <!--<button id="btnResetAll" class="btn ghost">Hapus Semua Data</button>-->
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button id="btnLogout" class="btn ghost">Logout</button>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+        <table aria-label="Daftar Ballroom" id="tblBallrooms">
+          <thead>
+            <tr>
+              <th>Nama Ballroom</th>
+              <th>Floor / Capacity</th>
+              <th>Event & Tanggal</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tblBody"></tbody>
+        </table>
+
+<!-- Tambahkan di dalam <div id="dashboard"> setelah elemen yang ada -->
+<div class="card">
+    <div class="card-header">
+        <h3>Auto Download Data Harian</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label class="toggle-switch">
+                <span>Auto Download Aktif</span>
+                <input type="checkbox" id="autoDownloadToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label for="downloadIntervalSelect">Interval Download:</label>
+            <select id="downloadIntervalSelect" class="form-control">
+                <option value="3600000">Setiap 1 Jam</option>
+                <option value="21600000">Setiap 6 Jam</option>
+                <option value="43200000">Setiap 12 Jam</option>
+                <option value="86400000" selected>Setiap 24 Jam</option>
+                <option value="259200000">Setiap 3 Hari</option>
+                <option value="604800000">Setiap Minggu</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <p id="downloadStatus" class="status-text">Auto download nonaktif</p>
+        </div>
+        
+        <div class="form-group">
+            <button type="button" class="btn primary" onclick="manualDownload()">
+                Download Data Hari Ini
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--<footer>
+          Perubahan yang dilakukan akan tersimpan di
+          <code>localStorage</code> dan akan dipakai oleh halaman utama.
+        </footer>-->
+      </div>
+    </div>
+
+    
+
+
+
+
+
+
+    <!-- ===== MODAL FORM (untuk tambah / edit) ===== -->
+    <div id="modalBackdrop" class="modal-backdrop">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h3 id="modalTitle">Tambah Ballroom</h3>
+        <div class="two">
+          <div>
+            <div class="field">
+              <label>Nama Ballroom</label><input id="f_name" type="text" />
+            </div>
+            <div class="field">
+              <label>Lantai</label><input id="f_floor" type="text" />
+            </div>
+                        <div class="field">
+              <label>Nama Acara</label><input id="f_eventName" type="text" />
+            </div>
+            <div class="field">
+              <label>Jenis Acara</label><input id="f_eventType" type="text" />
+            </div>
+
+            <div class="field">
+              <label>Kapasitas</label
+              ><input
+                id="f_capacity"
+                type="text"
+                placeholder="e.g. 200 guests"
+              />
+            </div>
+            <div class="field">
+              <label>Deskripsi</label><textarea id="f_description"></textarea>
+            </div>
+            <div class="field">
+              <label>Gambar (URL atau upload)</label
+              ><input
+                id="f_imageUrl"
+                type="text"
+                placeholder="assets/room.jpg or paste data:image..."
+              />
+              <input id="f_imageFile" type="file" accept="image/*" />
+            </div>
+          </div>
+          <div>
+            <div class="img-preview" id="imgPreview">Preview</div>
+            <div class="field">
+              <label>Tanggal Mulai</label><input id="f_startDate" type="date" />
+            </div>
+            <div class="field">
+              <label>Mulai</label><input id="f_startTime" type="time" />
+            </div>
+            <div class="field">
+              <label>Tanggal Selesai</label><input id="f_endDate" type="date" />
+            </div>
+            <div class="field">
+              <label>Selesai</label><input id="f_endTime" type="time" />
+            </div>
+            <div class="field">
+              <label>Status</label>
+              <select id="f_status" style="color: rgb(172, 13, 47); background: yellow;">
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            justify-content: flex-end;
+          "
+        >
+          <button id="btnSave" class="btn">Simpan</button>
+          <button id="btnCancel" class="btn ghost">Batal</button>
+        </div>
+      </div>
+      
+
+
+
+
+      
+    </div>
+    <script src="script-admin.js"></script>
+    <script src="user-script.js"></script>
+  </body>
+</html>
