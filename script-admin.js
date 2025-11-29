@@ -57,9 +57,9 @@ const btnCancel = document.getElementById("btnCancel");
 let editingId = null; // null => adding new
 
 // Simple auth check
-/* function isLoggedIn() {
+ function isLoggedIn() {
       return sessionStorage.getItem('isAdmin') === '1';
-    }*/
+    }
 
 function showDashboard() {
   loginPanel.style.display = "none";
@@ -879,3 +879,4 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(updateDownloadStatus, 60000);
   }, 100);
 });
+
